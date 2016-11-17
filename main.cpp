@@ -65,5 +65,23 @@ int main(){
 		cout << "didn't find 2" << endl;
 	}
 
+	if(tree1.findNode(8)){
+		cout << "found 8" << endl;
+	}
+
+	else{
+		cout << "didn't find 8" << endl;
+	}	
+
+	tree1.deleteNode(8);
+
+	if(tree1.findNode(8)){
+		cout << "found 8" << endl;
+	}
+
+	else{
+		cout << "didn't find 8" << endl;
+	}	
+
 	return 0;
 }

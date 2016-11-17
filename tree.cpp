@@ -8,7 +8,8 @@ using namespace std;
 Tree::Tree(int newValue){
 	this->head = NULL;
 	this->cursor = NULL;
-	this->temp = NULL;
+	this->temp1 = NULL;
+	this->temp2 = NULL;
 
 	head = new Node();
 	cursor = head;
@@ -23,7 +24,8 @@ Tree::~Tree(){
 	clearTree();
 	head = NULL;
 	cursor = NULL;
-	temp = NULL;
+	temp1 = NULL;
+	temp2 = NULL;
 }
 
 	bool Tree::addNode(int newValue){
@@ -89,7 +91,7 @@ Tree::~Tree(){
 				return true;
 			}
 
-			else if(newValue < cursor->value){gi
+			else if(newValue < cursor->value){
 				if(cursor->left == NULL){
 					return false;
 				}
@@ -114,24 +116,106 @@ Tree::~Tree(){
 
 	bool Tree::deleteNode(int newValue){
 
-		cursor = head;
+		cursor = temp1 = head;
+		bool flag1 = false;
+		bool flag2 = false;
+		bool flag3 = false;
 
 		if(isEmpty()){
 			return false;
 		}
 
-		if(cursor->value == newValue){
-			if(cursor->left == NULL && cursor->right == NULL){
-				delete[] cursor;
-				cursor = NULL;
-				head = NULL;
-			}
-			else{
+		// step 1: locate node
+		while(flag1 == false){
 
+			// current node is the right one
+			if(cursor->value == newValue){
+				flag1 = true;
+			}
+
+			// search left side
+			else if(newValue < cursor->value){
+				temp1 = cursor;
+				cursor = cursor->left;
+				cout << "going left" << endl;
+			}
+
+			// search right side
+			else{
+				temp1 = cursor;
+				cursor = cursor->right;
+				cout << "going right" << endl;
 			}
 		}
+		cout << "you are here..." << cursor->value << endl;
 
-		return true;
+
+		// case 1: node has no children (delete node)
+		if((cursor->left == NULL) && (cursor->right == NULL)){
+			delete[] cursor;
+			cursor = NULL;
+			return true;
+		}
+
+
+		// case 2: node has 1 child on left (bypass node)
+		if((cursor->left != NULL) && (cursor->right != NULL)){
+			temp1->left = cursor->left;
+			delete[] cursor;
+			cursor = NULL;
+			return true;
+		}
+
+
+		// case 3: node has 1 child on right (bypass node)
+		if((cursor->left == NULL) && (cursor->right != NULL)){
+			temp1->right = cursor->right;
+			delete[] cursor;
+			cursor = NULL;
+			return true;
+		}
+
+
+		// case 4: node has 2 children (substitute successor node)
+		if((cursor->left != NULL) && (cursor->right != NULL)){
+
+			temp1 = cursor;
+
+			while(flag2 == false){
+				temp2 = cursor;
+				cursor = cursor->right;
+
+				// case 1; left side is null
+				if(cursor->left == NULL){
+					flag2 = true;
+				}
+
+				// case 2; left side is not null
+				else{
+
+					while(flag3 == false){
+						temp2 = cursor;
+						cursor = cursor->left;
+						if(cursor->left == NULL){
+							flag3 = true;
+						}
+					}
+
+					flag2 = true;
+
+				}
+
+			}
+
+			temp1->value = cursor->value;
+			delete[] cursor;
+			cursor = NULL;
+			temp2->left = NULL;
+			return true;
+
+		}
+
+		return false;
 	}
 
 	bool Tree::clearTree(){
@@ -140,6 +224,11 @@ Tree::~Tree(){
 	}
 
 	bool printInOrder(){
+
+		return true;
+	}
+
+	bool printPreOrder(){
 
 		return true;
 	}

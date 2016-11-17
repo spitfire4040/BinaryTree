@@ -31,10 +31,12 @@ public:
 	bool deleteNode(int newValue);
 	bool clearTree();
 	bool printInOrder();
+	bool printPreOrder();
 	bool printPostOrder();
 
 private:
 	Node *head;
 	Node *cursor;
-	Node *temp;
+	Node *temp1;
+	Node *temp2;
 };
