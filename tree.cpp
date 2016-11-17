@@ -89,7 +89,7 @@ Tree::~Tree(){
 				return true;
 			}
 
-			else if(newValue < cursor->value){
+			else if(newValue < cursor->value){gi
 				if(cursor->left == NULL){
 					return false;
 				}
@@ -127,7 +127,7 @@ Tree::~Tree(){
 				head = NULL;
 			}
 			else{
-				
+
 			}
 		}
 
