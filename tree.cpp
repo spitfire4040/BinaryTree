@@ -31,16 +31,21 @@ Tree::~Tree(){
 	bool Tree::addNode(int newValue){
 		bool flag = false;
 
+		// set cursor to head
 		cursor = head;
 
+		// iterate until end is found
 		while(flag == false){
 
+			// if value exists, don'd add it again
 			if(newValue == cursor->value){
 				return false;
 			}
 
+			// if value is less than node, go left
 			else if(newValue < cursor->value){
 
+				// if at the end, add node
 				if(cursor->left == NULL){
 					cursor->left = new Node();
 					cursor = cursor->left;
@@ -48,13 +53,16 @@ Tree::~Tree(){
 					flag = true;
 				}
 
+				// if not at the end, go again
 				else{
 					cursor = cursor->left;
 				}
 			}
 
+			// if value is greater than node, go right
 			else{
 
+				// if at the end, add node
 				if(cursor->right == NULL){
 					cursor->right = new Node();
 					cursor = cursor->right;
@@ -62,6 +70,7 @@ Tree::~Tree(){
 					flag = true;
 				}
 
+				// if not at the end, go again
 				else{
 					cursor = cursor->right;
 				}
@@ -71,41 +80,55 @@ Tree::~Tree(){
 	}
 
 	bool Tree::isEmpty(){
+
+		// if head is null, it's empty
 		if(head == NULL){
 			return true;
 		}
+
+		// if head != null, it's not empty
 		return false;
 	}
 
 	bool Tree::findNode(int newValue){
 
+		// set cursor to head
 		cursor = head;
 
+		// check for empty tree
 		if(isEmpty()){
 			return false;
 		}
 
+		// iterate forever
 		for(;;){
 
+			// end if value is found
 			if(cursor->value == newValue){
 				return true;
 			}
 
+			// if value is less than current, go left
 			else if(newValue < cursor->value){
+
+				// if end and not found stop
 				if(cursor->left == NULL){
 					return false;
 				}
 
+				// if value is greater than current, go right
 				else{
 					cursor = cursor->left;
 				}
 			}
 
+			// if end and not found stop
 			else{
 				if(cursor->right == NULL){
 					return false;
 				}
 
+				// if not found, go right
 				else{
 					cursor = cursor->right;
 				}
@@ -121,6 +144,7 @@ Tree::~Tree(){
 		bool flag2 = false;
 		bool flag3 = false;
 
+		// check for empty tree
 		if(isEmpty()){
 			return false;
 		}
@@ -179,8 +203,10 @@ Tree::~Tree(){
 		// case 4: node has 2 children (substitute successor node)
 		if((cursor->left != NULL) && (cursor->right != NULL)){
 
+			// set temp1 to cursor (make it follow 1 behind)
 			temp1 = cursor;
 
+			// go 1 step to the right then find minimum value (successor)
 			while(flag2 == false){
 				temp2 = cursor;
 				cursor = cursor->right;
@@ -193,20 +219,28 @@ Tree::~Tree(){
 				// case 2; left side is not null
 				else{
 
+					// iterate until minimum (left end) is found
 					while(flag3 == false){
+
+						// set temp2 so it can be set to null after deleting successor (make it follow)
 						temp2 = cursor;
 						cursor = cursor->left;
+
+						// seek the end
 						if(cursor->left == NULL){
+							// stop inner loop
 							flag3 = true;
 						}
 					}
 
+					// stop outer loop
 					flag2 = true;
 
 				}
 
 			}
 
+			// the end...swap values and delete original successor
 			temp1->value = cursor->value;
 			delete[] cursor;
 			cursor = NULL;
